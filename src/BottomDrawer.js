@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { 
+import {
   View,
   PanResponder,
   Animated,
@@ -14,13 +14,13 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 export default class BottomDrawer extends Component{
   static propTypes = {
     /**
-     * Height of the drawer. 
+     * Height of the drawer.
      */
     containerHeight: PropTypes.number.isRequired,
 
     /**
      * The amount of offset to apply to the drawer's position.
-     * If the app uses a header and tab navigation, offset should equal 
+     * If the app uses a header and tab navigation, offset should equal
      * the sum of those two components' heights.
      */
     offset: PropTypes.number,
@@ -31,7 +31,7 @@ export default class BottomDrawer extends Component{
     startUp: PropTypes.bool,
 
     /**
-     * How much the drawer's down display falls beneath the up display. 
+     * How much the drawer's down display falls beneath the up display.
      * Ex: if set to 20, the down display will be 20 points underneath the up display.
      */
     downDisplay: PropTypes.number,
@@ -55,8 +55,6 @@ export default class BottomDrawer extends Component{
   static defaultProps = {
     offset: 0,
     startUp: true,
-    backgroundColor: '#ffffff',
-    roundedEdges: true,
     shadow: true,
   }
 
@@ -74,11 +72,11 @@ export default class BottomDrawer extends Component{
      * UP_POSITION and DOWN_POSITION calculate the two (x,y) values for when
      * the drawer is swiped into up position and down position.
      */
-    this.UP_POSITION = { 
-      x: 0, 
-      y: SCREEN_HEIGHT - (this.props.containerHeight + this.props.offset) 
+    this.UP_POSITION = {
+      x: 0,
+      y: SCREEN_HEIGHT - (this.props.containerHeight + this.props.offset)
     };
-    this.DOWN_POSITION = { 
+    this.DOWN_POSITION = {
       x: 0,
       y: this.UP_POSITION.y + this.DOWN_DISPLAY
     };
@@ -94,19 +92,20 @@ export default class BottomDrawer extends Component{
     });
   }
 
-  render() {   
+  render() {
     return (
-      <Animated.View 
+      <Animated.View
         style={[
-          {...this.position.getLayout(), left: 0 },
+          {
+            ...this.position.getLayout(),
+            height: this.props.containerHeight + Math.sqrt(SCREEN_HEIGHT),
+            left: 0
+          },
           styles.animationContainer,
-          this.props.animationContainerStyles,
-          this.props.roundedEdges ? styles.roundedEdges : null,
-          this.props.shadow ? styles.shadow : null,
-          { height: this.props.containerHeight + Math.sqrt(SCREEN_HEIGHT),
-            backgroundColor: this.props.backgroundColor }
+          this.props.style
         ]}
         {...this._panResponder.panHandlers}
+
       >
         {this.props.children}
 
